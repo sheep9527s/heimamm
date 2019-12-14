@@ -51,10 +51,12 @@
 </template>
 
 <script>
+
+import axios from "axios";
 export default {
   name: "login",
   data() {
-    //自定义手机号的验证
+    // 1.自定义手机号的验证
     var checkPhone = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("手机号不能为空"));
@@ -67,7 +69,7 @@ export default {
         }
       }
     };
-    // 验证
+    // 2.data的返回对象
     return {
       ruleForm: {
         phone: "",
@@ -91,8 +93,8 @@ export default {
           { min: 4, max: 4, message: "验证码长度为4", trigger: "change" }
         ]
       },
-      // 验证码地址
-      captchaUrl :process.env.VUE_APP_BASEURL+'/captcha?type=login'
+      // 3.验证码地址
+      captchaUrl: process.env.VUE_APP_BASEURL + "/captcha?type=login"
     };
   },
   methods: {
@@ -107,11 +109,13 @@ export default {
               type: "warning"
             });
             return false;
+          } else {
+            this.$message({
+              message: "恭喜你,验证通过",
+              type: "success"
+            });
+            this.loginFn();
           }
-          this.$message({
-            message: "恭喜你,验证通过",
-            type: "success"
-          });
         } else {
           this.$message.error("很抱歉，验证不通过~");
           return false;
@@ -120,11 +124,41 @@ export default {
     },
     //2.获取验证码
     getcaptcha() {
-      this.captchaUrl = process.env.VUE_APP_BASEURL+'/captcha?type=login&'+ Date.now()
-    }
-  },
-  created() {
-  },
+      this.captchaUrl =
+        process.env.VUE_APP_BASEURL + "/captcha?type=login&" + Date.now();
+    },
+    // 3.登录的请求
+    loginFn() {
+      window.console.log(this.ruleForm);
+      axios({
+        url: process.env.VUE_APP_BASEURL + "/login",
+        method: "post",
+        withCredentials: true,
+        data: {
+          phone: this.ruleForm.phone,
+          password: this.ruleForm.password,
+          code: this.ruleForm.captcha
+        }
+      }).then(res => {
+        window.console.log(res);
+      });
+
+      // this.$axios({
+      //   url: process.env.VUE_APP_BASEURL + "/login",
+      //   method: "post",
+      //   // 设置跨域请求可以携带cookie
+      //   withCredentials: true,
+      //   data: {
+      //     phone: this.ruleForm.phone,
+      //     password: this.ruleForm.password,
+      //     code: this.ruleForm.captcha
+      //   }
+      // }).then(res => {
+      //   window.console.log(res);
+      // });
+    },
+    // 4.注册 
+  }
 };
 </script>
 
