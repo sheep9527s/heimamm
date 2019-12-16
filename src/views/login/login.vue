@@ -1,6 +1,6 @@
 <template>
   <div class="login-box">
-    <!-- 左表单 -->
+    <!-- (1)左表单 -->
     <div class="from-box">
       <!-- 1. 表单标题 -->
       <div class="title-box">
@@ -41,17 +41,58 @@
         <!-- 2.5 按钮 -->
         <el-form-item>
           <el-button type="primary" @click="login">登录</el-button>
-          <el-button type="primary">注册</el-button>
+          <el-button type="primary" @click="dialogFormVisible=true">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <!-- 右图 -->
+    <!-- (2)右图 -->
     <img src="../../assets/login_banner_ele.png" alt />
+
+    <!-- (3)注册弹出框 -->
+    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+      <el-form :model="regform" :rules="regRules" ref="regForm">
+        <el-form-item label="昵称" :label-width="formLabelWidth" prop="username">
+          <el-input v-model="regform.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
+          <el-input v-model="regform.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机" :label-width="formLabelWidth" prop="phone">
+          <el-input v-model="regform.phone" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
+          <el-input v-model="regform.password" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="图形码" :label-width="formLabelWidth" prop="pcode">
+          <el-row>
+            <el-col :span="16">
+              <el-input v-model="regform.pcode" autocomplete="off"></el-input>
+            </el-col>
+            <el-col :span="7" :offset="1">
+              <img :src="captchaUrl" alt @click="getcaptcha" />
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="验证码" :label-width="formLabelWidth" prop="rcode">
+          <el-row>
+            <el-col :span="16">
+              <el-input v-model="regform.rcode" autocomplete="off" class="rcodeImg"></el-input>
+            </el-col>
+            <el-col :span="7" :offset="1">
+              <el-button>{{ delay==0 ? '获取用户验证码' : `还剩${delay}s后重新发送`}}</el-button>
+            </el-col>
+          </el-row>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-
 import axios from "axios";
 export default {
   name: "login",
@@ -71,12 +112,14 @@ export default {
     };
     // 2.data的返回对象
     return {
+      // 2.1 登录数据
       ruleForm: {
         phone: "",
         password: "",
         captcha: "",
         checked: false
       },
+      // 2.2 登录数据的校验
       rules: {
         phone: [{ required: true, validator: checkPhone, trigger: "change" }],
         password: [
@@ -93,7 +136,59 @@ export default {
           { min: 4, max: 4, message: "验证码长度为4", trigger: "change" }
         ]
       },
-      // 3.验证码地址
+      // 2.3 注册数据
+      regform: {
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        pcode: "",
+        rcode: ""
+      },
+      // 2.4 注册数据的校验
+      regRules: {
+        username: [
+          { required: true, message: "请输入昵称", trigger: "blur" },
+          { min: 2, message: "长度不少于2个字符", trigger: "blur" }
+        ],
+        email: [
+          { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          {
+            type: "email",
+            message: "请输入正确的邮箱地址",
+            trigger: ["blur", "change"]
+          }
+        ],
+        phone: [
+          { required: true, validator: checkPhone, trigger: ["blur", "change"] }
+        ],
+        password: [
+          {
+            required: true,
+            message: "请输入密码",
+            trigger: ["blur", "change"]
+          },
+          {
+            min: 6,
+            max: 18,
+            message: "长度在 6 到 18个字符",
+            trigger: "change"
+          }
+        ],
+        rcode: [
+          {
+            required: true,
+            message: "请输入验证码",
+            trigger: "blur"
+          }
+        ]
+      },
+      // 2.5 注册弹出框设置
+      dialogFormVisible: false,
+      formLabelWidth: "66px",
+      // 2.6  发验证码的 time
+      delay: 1,
+      // 2.7 .验证码地址
       captchaUrl: process.env.VUE_APP_BASEURL + "/captcha?type=login"
     };
   },
@@ -142,22 +237,8 @@ export default {
       }).then(res => {
         window.console.log(res);
       });
-
-      // this.$axios({
-      //   url: process.env.VUE_APP_BASEURL + "/login",
-      //   method: "post",
-      //   // 设置跨域请求可以携带cookie
-      //   withCredentials: true,
-      //   data: {
-      //     phone: this.ruleForm.phone,
-      //     password: this.ruleForm.password,
-      //     code: this.ruleForm.captcha
-      //   }
-      // }).then(res => {
-      //   window.console.log(res);
-      // });
-    },
-    // 4.注册 
+    }
+    // 4.注册
   }
 };
 </script>
@@ -232,6 +313,15 @@ export default {
         margin-bottom: 28px;
       }
     }
+  }
+
+  // 注册弹出框
+  .el-button {
+    width: 100%;
+  }
+
+  .rcodeImg {
+    width: 100%;
   }
 }
 </style>
