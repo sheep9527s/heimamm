@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import { login, sendsms, register } from "../../api/login.js";
 export default {
   name: "login",
   data() {
@@ -291,16 +292,11 @@ export default {
           }
         }, 100);
       }
-      this.$axios({
-        url: process.env.VUE_APP_BASEURL + "/sendsms",
-        method: "post",
-        withCredentials: true,
-        data: {
-          code: this.regform.pcode,
-          phone: this.regform.phone
-        }
+
+      sendsms({
+        code: this.regform.pcode,
+        phone: this.regform.phone
       }).then(res => {
-        window.console.log(res);
         if (res.data.code == 200) {
           this.$message.success("你的验证码位为" + res.data.data.captcha);
         } else {
@@ -335,35 +331,25 @@ export default {
         }
       });
     },
-    // 4.登录的请求
+    // 7.axios请求---->登录
     loginFn() {
-      this.$axios({
-        url: process.env.VUE_APP_BASEURL + "/login",
-        method: "post",
-        withCredentials: true,
-        data: {
-          phone: this.ruleForm.phone,
-          password: this.ruleForm.password,
-          code: this.ruleForm.captcha
-        }
+      login({
+        phone: this.ruleForm.phone,
+        password: this.ruleForm.password,
+        code: this.ruleForm.captcha
       }).then(res => {
         window.console.log(res);
       });
     },
-    // 5.注册 18680331110
+    // 8.axios请求---->注册 18680331110
     registerFn() {
-      this.$axios({
-        url: process.env.VUE_APP_BASEURL + "/register",
-        method: "post",
-        withCredentials: true,
-        data: {
-          username: this.regform.username,
-          phone: this.regform.phone,
-          email: this.regform.email,
-          avatar: this.regform.avatar,
-          password: this.regform.password,
-          rcode: this.regform.rcode
-        }
+      register({
+        username: this.regform.username,
+        phone: this.regform.phone,
+        email: this.regform.email,
+        avatar: this.regform.avatar,
+        password: this.regform.password,
+        rcode: this.regform.rcode
       }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("注册成功");
