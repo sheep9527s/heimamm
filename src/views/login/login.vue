@@ -111,6 +111,7 @@
 
 <script>
 import { login, sendsms, register } from "../../api/login.js";
+import { setToken } from "../../utils/token.js";
 export default {
   name: "login",
   data() {
@@ -138,10 +139,13 @@ export default {
     return {
       // 2.1 登录数据
       ruleForm: {
-        phone: "",
-        password: "",
+        // phone: "",
+        // password: "",
+        phone: "18611111111",
+        password: "123456",
         captcha: "",
-        checked: false
+        checked: true
+        // checked: false
       },
       // 2.2 登录数据的校验
       rules: {
@@ -250,10 +254,10 @@ export default {
             });
             return false;
           } else {
-            this.$message({
-              message: "恭喜你,验证通过",
-              type: "success"
-            });
+            // this.$message({
+            //   message: "恭喜你,验证通过",
+            //   type: "success"
+            // });
             this.loginFn();
           }
         } else {
@@ -338,8 +342,12 @@ export default {
         password: this.ruleForm.password,
         code: this.ruleForm.captcha
       }).then(res => {
-        window.console.log(res);
-        localStorage.setItem('token',res.data.data.token);
+        if (res.data.code === 200) {
+           this.$message.success('登录成功');
+          setToken(res.data.data.token);
+        } else {
+          this.$message.error(res.data.message);
+        }
       });
     },
     // 8.axios请求---->注册 18680331110
