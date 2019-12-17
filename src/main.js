@@ -14,10 +14,12 @@ import './style/base.css'
 // 3.导入axios，设置全局axios
 Vue.prototype.$axios = axios;
 
+// 4.导入vuex 仓库
+import store from './store/store.js'
+
 Vue.config.productionTip = false
-
-
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store
 }).$mount('#app')

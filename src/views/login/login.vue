@@ -102,7 +102,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="cancleReg">取 消</el-button>
         <el-button type="primary" @click="submitRegForm">确 定</el-button>
       </div>
     </el-dialog>
@@ -237,7 +237,7 @@ export default {
       captchaUrl_reg: process.env.VUE_APP_BASEURL + "/captcha?type=sendsms",
       // 2.8 上传头像的地址
       uploadUrl: process.env.VUE_APP_BASEURL + "/uploads",
-      // 2.9 头像生成后的地址
+      // 2.9 头像生成后预览的地址
       headImgUrl: ""
     };
   },
@@ -331,7 +331,14 @@ export default {
         }
       });
     },
-    // 7.axios请求---->登录
+    // 7.点击注册的取消
+    cancleReg() {
+      this.dialogFormVisible = false;
+      // 清除表单数据和图片
+      this.$refs.regform.resetFields();
+      this.headImgUrl = "";
+    },
+    // 8.axios请求---->登录
     loginFn() {
       login({
         phone: this.ruleForm.phone,
@@ -340,14 +347,14 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.$message.success("登录成功");
-          this.$router.push('/index');
+          this.$router.push("/index");
           setToken(res.data.data.token);
         } else {
           this.$message.error(res.data.message);
         }
       });
     },
-    // 8.axios请求---->注册 18680331110
+    // 9.axios请求---->注册 18680331110
     registerFn() {
       register({
         username: this.regform.username,
@@ -360,6 +367,9 @@ export default {
         if (res.data.code == 200) {
           this.$message.success("注册成功");
           this.dialogFormVisible = false;
+          // 清除表单数据和图片
+          this.$refs.regform.resetFields();
+          this.headImgUrl = "";
         } else {
           this.$message.error(res.data.message);
         }

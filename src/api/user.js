@@ -7,11 +7,19 @@ const instance = axios.create({
     withCredentials: true
 });
 
-import {getToken} from '../utils/token.js'
+import { getToken } from '../utils/token.js'
 // 1.获取用户信息
-export function userInfo(){
+export function userInfo() {
     return instance({
-        url:'/info',
-        headers:{token:getToken()}
+        url: '/info',
+        headers: { token: getToken() }
+    });
+}
+
+// 2.用户退出登录
+export function logout() {
+    return instance({
+        url: '/logout',
+        headers: { token: getToken() }
     });
 }

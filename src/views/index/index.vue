@@ -8,9 +8,9 @@
         <span class="title">黑马面面</span>
       </div>
       <div class="right">
-        <img src="../../assets/index_logo.png" alt class="headImg" />
-        <span class="username">小赞，你好</span>
-        <el-button size="small" type="primary">退出</el-button>
+        <img :src="$store.state.userInfo.avatar" alt class="headImg" />
+        <span class="username">{{$store.state.userInfo.username}}你好</span>
+        <el-button size="small" type="primary" @click="logout">退出</el-button>
       </div>
     </el-header>
     <el-container>
@@ -47,23 +47,36 @@
 </template>
 
 <script>
-import { getToken } from "../../utils/token.js";
+import { removeToken } from "../../utils/token.js";
+import { logout } from "../../api/user.js";
+
 export default {
   data() {
     return {
       isCollapse: false
     };
   },
-  beforeCreate() {
-    // 登录验证
-    if (!getToken()) { //未登录
-      this.$message.error('嘿，你还没登录呢，请先登录吧');
-      this.$router.push('/login');
-    }else { //已有token，但判断是否匹配
-        // if () {
-          
-        // }
-
+  methods: {
+    logout() {
+      this.$confirm("确定要退出登录嘛", "提示", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          logout().then(res => {
+            if (res.data.code === 200) {
+              this.$store.state.userInfo = "";
+              // 返回登录页面，并清除用户数据，清除token
+              this.$message("已确认退出");
+              this.$router.push("/login");
+              removeToken();
+            }
+          });
+        })
+        .catch(() => {
+          this.$message.error("已取消退出");
+        });
     }
   }
 };

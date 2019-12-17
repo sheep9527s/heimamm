@@ -11,6 +11,7 @@ import { userInfo } from '../api/user.js'
 
 // 3. 工具文件
 import { getToken, removeToken } from '../utils/token.js'
+import store from '../store/store.js'
 
 // 4.element-ui
 import { Message } from 'element-ui'
@@ -46,7 +47,7 @@ const whilePaths = ['/login'];
 router.beforeEach((to, from, next) => {
     // 除了登录页面，其他页面都要登录后才能访问
     // 1.排除不用登录的页面
-    if (whilePaths.includes(to.path.toLocaleLowerCase())===false) {
+    if (whilePaths.includes(to.path.toLocaleLowerCase()) === false) {
         // 2.判断token是否为空
         if (!getToken()) {//空
             Message.error('请先登录，在访问！！！！');
@@ -54,8 +55,11 @@ router.beforeEach((to, from, next) => {
         } else {
             //3. 判断用户信息是否匹配(token是否正确)
             userInfo().then(res => {
-                window.console.log(res);
                 if (res.data.code === 200) {
+                    // 赋值用户信息
+                    store.state.userInfo = res.data.data;
+                    // 用户头像
+                    store.state.userInfo.avatar = process.env.VUE_APP_BASEURL + '/' + store.state.userInfo.avatar;
                     next();
                 } else if (res.data.code === 206) {
                     Message.error('小样，就知道会伪造token，滚犊子');
