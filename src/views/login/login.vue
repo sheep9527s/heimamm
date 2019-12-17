@@ -339,8 +339,8 @@ export default {
         code: this.ruleForm.captcha
       }).then(res => {
         if (res.data.code === 200) {
-           this.$message.success('登录成功');
-           window.console.log(res.data.data.token);
+          this.$message.success("登录成功");
+          this.$router.push('/index');
           setToken(res.data.data.token);
         } else {
           this.$message.error(res.data.message);
