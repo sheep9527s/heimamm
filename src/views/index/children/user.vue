@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { userInfo } from "../../../api/index.js";
+import { userInfo } from "../../../api/user.js";
 export default {
   data() {
     return {};
@@ -11,7 +11,7 @@ export default {
   created() {
     let token = localStorage.getItem('token');
     userInfo(token).then(res => {
-      window.console.log(res);
+      window.console.log('用户信息',res);
     });
   }
 };

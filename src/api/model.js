@@ -7,10 +7,3 @@ const instance = axios.create({
     withCredentials: true
 });
 
-// 1.获取用户信息
-export function userInfo(token){
-    return instance({
-        url:'/info',
-        headers:{token}
-    });
-}

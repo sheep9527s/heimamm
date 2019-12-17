@@ -254,10 +254,6 @@ export default {
             });
             return false;
           } else {
-            // this.$message({
-            //   message: "恭喜你,验证通过",
-            //   type: "success"
-            // });
             this.loginFn();
           }
         } else {
@@ -344,6 +340,7 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
            this.$message.success('登录成功');
+           window.console.log(res.data.data.token);
           setToken(res.data.data.token);
         } else {
           this.$message.error(res.data.message);

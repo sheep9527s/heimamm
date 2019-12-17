@@ -47,14 +47,24 @@
 </template>
 
 <script>
+import { getToken } from "../../utils/token.js";
 export default {
   data() {
     return {
       isCollapse: false
     };
   },
-  created() {
-    window.console.log(this.$route);
+  beforeCreate() {
+    // 登录验证
+    if (!getToken()) { //未登录
+      this.$message.error('嘿，你还没登录呢，请先登录吧');
+      this.$router.push('/login');
+    }else { //已有token，但判断是否匹配
+        // if () {
+          
+        // }
+
+    }
   }
 };
 </script>

@@ -1,13 +1,13 @@
 const KEY = 'mmtoken';
 
 // 1.设置token
-export function getToken(token) {
+export function setToken(token) {
     localStorage.setItem(KEY, token);
 }
 
 // 2.获取token
-export function setToken() {
-    localStorage.getItem(KEY);
+export function getToken() {
+   return  localStorage.getItem(KEY);
 }
 
 
