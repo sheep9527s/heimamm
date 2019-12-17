@@ -16,12 +16,12 @@
     <el-container>
       <!-- 侧栏菜单 -->
       <el-aside width="auto" class="my-aside">
-        <el-menu  router default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse">
+        <el-menu router default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse">
           <el-menu-item index="/index/subject">
             <i class="el-icon-pie-chart"></i>
             <span slot="title">数据预览</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="/index/user">
             <i class="el-icon-user"></i>
             <span slot="title">用户列表</span>
           </el-menu-item>
@@ -52,6 +52,9 @@ export default {
     return {
       isCollapse: false
     };
+  },
+  created() {
+    window.console.log(this.$route);
   }
 };
 </script>
@@ -107,7 +110,7 @@ export default {
   }
   //   3.主要内容
   .my-main {
-    // background-color: #ccc;
+    background-color: #ccc;
   }
 }
 </style>

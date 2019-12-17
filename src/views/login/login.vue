@@ -238,7 +238,7 @@ export default {
     };
   },
   methods: {
-    // 1.提交登录的ƒ表单事件
+    // 1.提交登录的表单事件
     submitLoginForm() {
       // 验证是否勾选协议
       this.$refs.ruleForm.validate(valid => {
@@ -339,6 +339,7 @@ export default {
         code: this.ruleForm.captcha
       }).then(res => {
         window.console.log(res);
+        localStorage.setItem('token',res.data.data.token);
       });
     },
     // 8.axios请求---->注册 18680331110

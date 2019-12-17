@@ -4,6 +4,7 @@ import vueRouter from 'vue-router';
 import login from '../views/login/login.vue'
 import index from '../views/index/index.vue'
 import subject from '../views/index/children/subject.vue'
+import user from '../views/index/children/user.vue'
 // 用包
 Vue.use(vueRouter);
 // 路由规则
@@ -19,6 +20,10 @@ const routes = [
             {
                 path: 'subject',
                 component: subject
+            },
+            {
+                path: 'user',
+                component: user
             }
         ]
     }
