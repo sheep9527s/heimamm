@@ -8,7 +8,7 @@ const store = new Vuex.Store({
     // Vue实例中的data
     state: {
         // 1.用户信息
-        usetInfo: ''
+        userInfo: {}
     }
 })
 
