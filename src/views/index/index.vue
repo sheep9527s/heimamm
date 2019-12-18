@@ -8,8 +8,8 @@
         <span class="title">黑马面面</span>
       </div>
       <div class="right">
-        <img :src="$store.state.userInfo.avatar" alt class="headImg" />
-        <span class="username">{{$store.state.userInfo.username}}你好</span>
+        <img :src="userInfo.avatar" alt class="headImg" />
+        <span class="username">{{userInfo.username}}你好</span>
         <el-button size="small" type="primary" @click="logout">退出</el-button>
       </div>
     </el-header>
@@ -78,7 +78,12 @@ export default {
           this.$message.error("已取消退出");
         });
     }
-  }
+  },
+  computed: {
+    userInfo(){
+      return this.$store.state.userInfo;
+    }
+  },
 };
 </script>
 

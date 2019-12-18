@@ -347,8 +347,8 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.$message.success("登录成功");
+           setToken(res.data.data.token);
           this.$router.push("/index");
-          setToken(res.data.data.token);
         } else {
           this.$message.error(res.data.message);
         }

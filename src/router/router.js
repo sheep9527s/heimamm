@@ -4,7 +4,11 @@ import vueRouter from 'vue-router';
 // 1. 组件
 import login from '../views/login/login.vue'
 import index from '../views/index/index.vue'
+import chart from '../views/index/chart/chart.vue'
 import user from '../views/index/user/user.vue'
+import question from '../views/index/question/question.vue'
+import enterprise from '../views/index/enterprise/enterprise.vue'
+import subject from '../views/index/subject/subject.vue'
 
 // 2. api(请求)
 import { userInfo } from '../api/user.js'
@@ -28,10 +32,27 @@ const routes = [
         path: '/index',
         component: index,
         children: [
+           
+            {
+                path: 'chart',
+                component: chart
+            },
             {
                 path: 'user',
                 component: user
-            }
+            },
+            {
+                path: 'question',
+                component: question
+            },
+            {
+                path: 'enterprise',
+                component: enterprise
+            },
+            {
+                path: 'subject',
+                component: subject
+            },
         ]
     }
 ];
