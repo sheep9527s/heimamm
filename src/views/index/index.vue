@@ -138,7 +138,7 @@ export default {
   }
   //   3.主要内容
   .my-main {
-    background-color: #ccc;
+    background-color: #E8E9EC;
   }
 }
 </style>

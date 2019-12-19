@@ -1,12 +1,11 @@
 //  导入axios
-// import axios from 'axios'
-import instance from './request.js'
+import axios from 'axios'
 
-// const instance = axios.create({
-//     baseURL: process.env.VUE_APP_BASEURL,
-//     // 跨域携带cookie
-//     withCredentials: true
-// });
+const instance = axios.create({
+    baseURL: process.env.VUE_APP_BASEURL,
+    // 跨域携带cookie
+    withCredentials: true
+});
 
 
 //登录

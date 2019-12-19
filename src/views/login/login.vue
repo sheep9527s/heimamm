@@ -82,7 +82,7 @@
               <el-input v-model="regform.pcode" autocomplete="off"></el-input>
             </el-col>
             <el-col :span="7" :offset="1">
-              <img :src="captchaUrl_reg" alt @click="getcaptchaReg" />
+              <img :src="captchaUrl_reg" alt @click="getcaptchaReg" class='register-captcha'/>
             </el-col>
           </el-row>
         </el-form-item>
@@ -141,7 +141,7 @@ export default {
       ruleForm: {
         // phone: "",
         // password: "",
-        phone: "18611111111",
+        phone: "18511111111",
         password: "123456",
         captcha: "",
         checked: true
@@ -347,7 +347,7 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.$message.success("登录成功");
-           setToken(res.data.data.token);
+          setToken(res.data.data.token);
           this.$router.push("/index");
         } else {
           this.$message.error(res.data.message);
@@ -403,6 +403,7 @@ export default {
     .title-box {
       display: flex;
       align-items: center;
+
       img {
         width: 22px;
         height: 17px;
@@ -452,7 +453,23 @@ export default {
   }
 
   // 注册弹出框
-  .el-dialog__wrapper {
+  .el-dialog {
+    width: 603px;
+    .el-dialog__header {
+      text-align: center;
+      background: linear-gradient(to right, #01c4fa, #1294fa);
+      margin-bottom: 20px;
+      .el-dialog__title {
+        color: white;
+      }
+    }
+
+    // 图形验证码
+    .register-captcha {
+      height: 40px;
+      width: 100%;
+    }
+
     .msg-btn {
       width: 100%;
     }
