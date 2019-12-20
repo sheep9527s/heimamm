@@ -22,7 +22,7 @@ instance.interceptors.request.use(config => {
 
 // 2.设置响应的拦截器
 instance.interceptors.response.use(response => {
-  return response;
+  return response.data;
 }, error => {
   return Promise.reject(error);
 });
