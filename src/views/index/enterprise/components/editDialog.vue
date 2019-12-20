@@ -39,7 +39,9 @@ export default {
       },
       myrules: {
         eid: [{ required: true, message: "请输入企业编号", trigger: "blur" }],
-        name: [{ required: true, message: "请输入企业名称", trigger: "blur" }]
+        name: [{ required: true, message: "请输入企业名称", trigger: "blur" }],
+        short_name: [{ required: true, message: "请输入企业简称", trigger: "blur" }],
+        intro: [{ required: true, message: "请输入企业简介", trigger: "blur" }],
       }
     };
   },
