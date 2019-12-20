@@ -197,7 +197,7 @@ export default {
           {
             required: true,
             message: "请输入密码",
-            trigger: ["blur", "change"]
+            trigger: ["blur", "change"] 
           },
           {
             min: 6,

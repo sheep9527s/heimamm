@@ -147,7 +147,7 @@ export default {
       })
         .then(() => {
           subjectEditStatus({ id: item.id }).then(res => {
-            if (res.data.code === 200) {
+            if (res.code === 200) {
               this.$message.success(`${statusStr}成功`);
               // 刷新页面
               this.getsubjectList();
@@ -167,7 +167,7 @@ export default {
       })
         .then(() => {
           subjectDel({ id: item.id }).then(res => {
-            if (res.data.code === 200) {
+            if (res.code === 200) {
               this.$message.success("删除成功");
               // 刷新页面
               this.getsubjectList();
@@ -185,8 +185,8 @@ export default {
         limit:this.limit,
         ...this.formFilter
       }).then(res => {
-        this.subTotal = res.data.data.pagination.total;
-        this.subjectData = res.data.data.items;
+        this.subTotal = res.data.pagination.total;
+        this.subjectData = res.data.items;
       });
     },
     // 6.设置禁用字段的样式

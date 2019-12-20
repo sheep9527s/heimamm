@@ -50,11 +50,11 @@ export default {
       this.$refs.addform.validate(valid => {
         if (valid) {
           subjectAdd(this.addform).then(res => {
-            if (res.data.code === 200) {
+            if (res.code === 200) {
               this.$message.success("新增成功");
               this.$parent.getsubjectList();
               this.cancleAdd();
-            } else if (res.data.code === 201) {
+            } else if (res.code === 201) {
               this.$message.warning("学科编号已存在,请重新输入～");
             } else {
               this.$message.error("新增失败～请稍后再试");
