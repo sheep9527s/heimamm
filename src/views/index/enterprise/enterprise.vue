@@ -71,7 +71,7 @@
     <!-- 3.新增弹框 -->
     <addForm></addForm>
     <!-- 4.编辑弹框 -->
-    <editForm ref='editForm'></editForm>
+    <editForm ref="editForm"></editForm>
   </div>
 </template>
 
@@ -133,8 +133,15 @@ export default {
     },
     // 3.删除数据
     handleDelete(item) {
-      enterpriseRemove({ id: item.id }).then(res => {
-        this.axiosback("数据删除", res);
+      this.$confirm("确定要删除名", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        enterpriseRemove({ id: item.id }).then(res => {
+          this.axiosback("数据删除", res);
+          this.getdata();
+        });
       });
     },
     // 4.编辑
@@ -171,8 +178,10 @@ export default {
   },
   created() {
     this.getdata();
-  },components:{
-    addForm,editForm
+  },
+  components: {
+    addForm,
+    editForm
   }
 };
 </script>

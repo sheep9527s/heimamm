@@ -51,6 +51,7 @@ import { removeToken } from "../../utils/token.js";
 import { logout } from "../../api/user.js";
 
 export default {
+  name:'index',
   data() {
     return {
       isCollapse: false

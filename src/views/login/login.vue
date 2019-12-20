@@ -297,10 +297,10 @@ export default {
         code: this.regform.pcode,
         phone: this.regform.phone
       }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("你的验证码位为" + res.data.data.captcha);
+        if (res.code == 200) {
+          this.$message.success("你的验证码位为" + res.data.captcha);
         } else {
-          this.$message.error(res.data.message);
+          this.$message.error(res.message);
         }
       });
     },
@@ -346,7 +346,6 @@ export default {
         code: this.ruleForm.captcha
       }).then(res => {
         if (res.data.code === 200) {
-          this.$message.success("登录成功");
           setToken(res.data.data.token);
           this.$router.push("/index");
         } else {
